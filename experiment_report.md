@@ -1,8 +1,8 @@
 # Experiment Report: Data Quality Impact on AI Agent
 
-**Student ID:** AI20K-XXXX
-**Name:** (Dien ten cua ban)
-**Date:** (Dien ngay thuc hien)
+**Student ID:** AI20K-2A202600406
+**Name:** Nguyễn Thị Quỳnh Trang
+**Date:** 15/04/2026
 
 ---
 
@@ -12,8 +12,8 @@ Chay `agent_simulation.py` voi 2 bo du lieu va ghi lai ket qua:
 
 | Scenario | Agent Response | Accuracy (1-10) | Notes |
 |----------|----------------|-----------------|-------|
-| Clean Data (`processed_data.csv`) | (Ghi cau tra loi cua Agent) | | |
-| Garbage Data (`garbage_data.csv`) | (Ghi cau tra loi cua Agent) | | |
+| Clean Data (`processed_data.csv`) | Based on my data, the best choice is Laptop at $1200 | 9 | |
+| Garbage Data (`garbage_data.csv`) | Based on my data, the best choice is Nuclear Reactor at $999999 | 2 | |
 
 ---
 
@@ -21,15 +21,22 @@ Chay `agent_simulation.py` voi 2 bo du lieu va ghi lai ket qua:
 
 ### Tai sao Agent tra loi sai khi dung Garbage Data?
 
-(Viet nhan xet cua ban o day — it nhat 50 tu)
+Agent chọn "Nuclear Reactor" thay vì "Laptop" vì garbage data chứa nhiều vấn đề chất lượng dữ liệu:
 
-(Hay phan tich cac van de nhu Duplicate IDs, wrong data types, outliers, null values
-va giai thich tai sao chung anh huong den ket qua cua Agent.)
+**1. Extreme Outlier (Outliers):** Nuclear Reactor có giá $999999, gấp 833 lần so với Laptop ($1200). Agent chỉ xem xét giá cao nhất trong danh sách electronics mà không kiểm tra tính hợp lý của dữ liệu, nên nó nhận sản phẩm này là "tốt nhất".
+
+**2. Duplicate IDs:** Dữ liệu garbage có hai bản ghi với id=1 (Laptop và Banana). Điều này tạo ra sự nhập nhằng trong dữ liệu gốc và khiến không rõ bản ghi nào là chính thức.
+
+**3. Wrong Data Types:** Giá của "Broken Chair" là "ten dollars" (chuỗi ký tự) thay vì số. Nếu agent không xử lý lỗi kiểu dữ liệu, nó có thể cho kết quả sai hoặc crash.
+
+**4. Null Values:** Bản ghi cuối cùng có id=None và category=None. Dữ liệu bị thiếu này làm cho agent không thể xác định sản phẩm đó thuộc danh mục nào.
+
+Kết luận: Dữ liệu sạch đảm bảo agent lựa chọn sản phẩm hợp lý (Laptop $1200), nhưng dữ liệu bẩn khiến agent chọn sản phẩm không thực tế (Nuclear Reactor $999999).
 
 ---
 
 ## 3. Ket luan
 
-**Quality Data > Quality Prompt?** (Dong y hay khong? Giai thich ngan gon.)
+**Quality Data > Quality Prompt?** **CÓ, tuyệt đối đúng.**
 
-(Viet ket luan cua ban o day)
+Ngay cả với cùng một agent logic đơn giản (tìm sản phẩm electronics có giá cao nhất), dữ liệu sạch cho kết quả hợp lý (Laptop $1200) còn dữ liệu bẩn cho kết quả vô lý (Nuclear Reactor $999999). Prompt và logic không thay đổi, nhưng dữ liệu đầu vào quyết định chất lượng đầu ra. Các vấn đề như outliers, duplicate IDs, null values, và sai kiểu dữ liệu trực tiếp ảnh hưởng đến quyết định của agent. Do đó, chất lượng dữ liệu là yếu tố quan trọng nhất để đảm bảo hệ thống AI hoạt động chính xác, thậm chí quan trọng hơn cả việc viết prompt hoàn hảo.
